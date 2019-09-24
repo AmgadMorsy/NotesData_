@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,10 +32,11 @@ public class MainActivity extends AppCompatActivity implements NotesData.NotesDa
 
 
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         Log.d(LOGID, "onCreate Called");
         //setContentView(R.layout.activity_main);
-        callPrefernces();
+        //callPrefernces();
         makeData();
         noteJSONSerializer = new NoteJSONSerializer(this, "notes.json");
         try {
@@ -75,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements NotesData.NotesDa
             }
         });
 
-
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
@@ -83,22 +83,18 @@ public class MainActivity extends AppCompatActivity implements NotesData.NotesDa
                 ViewGroup.LayoutParams.MATCH_PARENT
         ));
         linearLayout.setId(View.generateViewId());
-
-
         linearLayout.addView(addNoteButton);
         linearLayout.addView(save);
         linearLayout.addView(notesRV);
-
-        NoteFragment SetTitle = new NoteFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(linearLayout.getId(),SetTitle);
-        fragmentTransaction.commit();
-        
         setContentView(linearLayout);
+
+
+
+
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        SetTitle setTitle = new SetTitle();
+        setTitle.show(fragmentManager, "DIALOG_NOT_EDITOR");
     }
-
-
-
 
     public void addNotes() {
 
@@ -131,32 +127,10 @@ public class MainActivity extends AppCompatActivity implements NotesData.NotesDa
         }
     };
 
-        /*private void callPrefernces() {
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        String titlePref = prefs.getString("UserTitle", null);
-        if (titlePref== (null)) {
-            setTitle(captureTitle(prefs));
 
-        } else {
-            setTitle(titlePref); } }
-
-
-        private String captureTitle(SharedPreferences prefs){
-        String userInput = "Notebook";
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("UserTitle","Amgad's Notebook");
-        editor.commit();
-        return userInput;
+    public void setnewTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
-*/
-
-
-
-
-
-    private void callPrefernces(){
-        setTitle("amgad");
-}
 
 
     @Override

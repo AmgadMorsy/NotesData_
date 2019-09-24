@@ -31,7 +31,7 @@ public class NoteEditorDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         //return super.onCreateDialog(savedInstanceState);
 
-        position = getArguments().getInt("position");
+       // position = getArguments().getInt("position");
         Note note = NotesData.getInstance(null).getNoteList().get(position);
 
         nameText = new EditText(getActivity());
